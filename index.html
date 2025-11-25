@@ -3,209 +3,1100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Curso de Ecuaciones Diferenciales</title>
+    <title>Calculadora de Ecuaciones Diferenciales de Primer Orden</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/estilos.css">
+   <style>
+       /* ============================================
+   VARIABLES DE COLOR - PALETA VIBRANTE
+   ============================================ */
+:root {
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
+    --secondary: #8b5cf6;
+    --accent: #ec4899;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --info: #06b6d4;
+    
+    --bg-main: #ffffff;
+    --bg-secondary: #f8fafc;
+    --bg-card: #ffffff;
+    
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --text-light: #94a3b8;
+    
+    --border-color: #e2e8f0;
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Tema Oscuro */
+body.dark-theme {
+    --bg-main: #0f172a;
+    --bg-secondary: #1e293b;
+    --bg-card: #1e293b;
+    
+    --text-primary: #f1f5f9;
+    --text-secondary: #cbd5e1;
+    --text-light: #94a3b8;
+    
+    --border-color: #334155;
+}
+
+/* ============================================
+   ESTILOS GENERALES
+   ============================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg-main);
+    color: var(--text-primary);
+    line-height: 1.6;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* ============================================
+   NAVEGACIÓN
+   ============================================ */
+.navbar {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%) !important;
+    padding: 1rem 0;
+    box-shadow: var(--shadow-md);
+    backdrop-filter: blur(10px);
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.brand-icon {
+    font-size: 2rem;
+    font-weight: 300;
+}
+
+.nav-link {
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-weight: 500;
+    padding: 0.5rem 1rem !important;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff !important;
+    transform: translateY(-2px);
+}
+
+.btn-theme-toggle {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    margin-left: 1rem;
+    transition: all 0.3s ease;
+}
+
+.btn-theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
+}
+
+/* ============================================
+   HERO SECTION
+   ============================================ */
+.hero-section {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--accent) 100%);
+    padding: 5rem 0 8rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path fill="%23ffffff" fill-opacity="0.05" d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z"></path></svg>') repeat-x;
+    opacity: 0.3;
+    animation: wave 20s linear infinite;
+}
+
+@keyframes wave {
+    0% { background-position: 0 0; }
+    100% { background-position: 1200px 0; }
+}
+
+.hero-section h1 {
+    font-weight: 800;
+    text-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.hero-section .lead {
+    font-size: 1.3rem;
+    opacity: 0.95;
+    font-weight: 300;
+}
+
+.hero-badges {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+}
+
+.hero-badges .badge {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    padding: 0.5rem 1.5rem;
+    border-radius: 50px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.hero-wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.hero-wave svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 80px;
+}
+
+.hero-wave path {
+    fill: var(--bg-main);
+}
+
+/* ============================================
+   SECCIONES
+   ============================================ */
+.calculator-section {
+    padding: 4rem 0;
+    margin-top: -4rem;
+    position: relative;
+    z-index: 1;
+}
+
+.examples-section,
+.methods-section,
+.history-section {
+    padding: 4rem 0;
+    background: var(--bg-secondary);
+}
+
+.methods-section {
+    background: var(--bg-main);
+}
+
+.section-title {
+    font-weight: 700;
+    color: var(--text-primary);
+    position: relative;
+    display: inline-block;
+    padding-bottom: 1rem;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    border-radius: 2px;
+}
+
+/* ============================================
+   CARDS
+   ============================================ */
+.card {
+    border: none;
+    border-radius: 16px;
+    background: var(--bg-card);
+    box-shadow: var(--shadow-md);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.card:hover {
+    box-shadow: var(--shadow-xl);
+    transform: translateY(-5px);
+}
+
+.card-header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: white;
+    border: none;
+    padding: 1.5rem;
+    border-radius: 16px 16px 0 0;
+}
+
+.card-header h4 {
+    margin: 0;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.calculator-card,
+.solution-card,
+.graph-card {
+    height: 100%;
+}
+
+.calculator-card .card-body {
+    padding: 2rem;
+}
+
+/* ============================================
+   FORMULARIOS
+   ============================================ */
+.form-label {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.form-control,
+.form-select {
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: var(--bg-card);
+    color: var(--text-primary);
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+    outline: none;
+}
+
+.format-info {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+    padding: 1rem;
+    border-radius: 10px;
+    border-left: 4px solid var(--primary);
+    font-family: 'Courier New', monospace;
+    font-size: 0.95rem;
+}
+
+.equation-inputs {
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================
+   BOTONES
+   ============================================ */
+.btn {
+    border-radius: 10px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: white;
+    box-shadow: 0 4px 6px rgba(99, 102, 241, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(99, 102, 241, 0.4);
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary) 100%);
+}
+
+.btn-outline-secondary {
+    border: 2px solid var(--border-color);
+    color: var(--text-secondary);
+}
+
+.btn-outline-secondary:hover {
+    background: var(--bg-secondary);
+    border-color: var(--text-secondary);
+    color: var(--text-primary);
+}
+
+.btn-outline-primary {
+    border: 2px solid var(--primary);
+    color: var(--primary);
+}
+
+.btn-outline-primary:hover {
+    background: var(--primary);
+    color: white;
+}
+
+.btn-outline-info {
+    border: 2px solid var(--info);
+    color: var(--info);
+}
+
+.btn-outline-info:hover {
+    background: var(--info);
+    color: white;
+}
+
+.btn-icon {
+    margin-right: 0.5rem;
+}
+
+/* ============================================
+   SOLUCIÓN
+   ============================================ */
+.solution-card .card-body {
+    min-height: 400px;
+    padding: 2rem;
+}
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    min-height: 300px;
+    color: var(--text-light);
+}
+
+.empty-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.solution-step {
+    background: var(--bg-secondary);
+    border-left: 4px solid var(--primary);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-radius: 10px;
+    animation: slideIn 0.5s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.solution-step h5 {
+    color: var(--primary);
+    font-weight: 600;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.solution-step .step-number {
+    background: var(--primary);
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.solution-equation {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    font-family: 'Courier New', monospace;
+    font-size: 1.1rem;
+    text-align: center;
+    margin: 1rem 0;
+    border: 1px solid var(--border-color);
+}
+
+.dark-theme .solution-equation {
+    background: var(--bg-main);
+    color: var(--text-primary);
+}
+
+.solution-result {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(6, 182, 212, 0.1) 100%);
+    border: 2px solid var(--success);
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-top: 2rem;
+}
+
+.solution-result h4 {
+    color: var(--success);
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+/* ============================================
+   GRÁFICA
+   ============================================ */
+.graph-card {
+    margin-top: 1.5rem;
+}
+
+#solutionGraph {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 300px;
+}
+
+/* ============================================
+   EJEMPLOS
+   ============================================ */
+.example-card {
+    height: 100%;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.example-card:hover {
+    transform: translateY(-8px) scale(1.02);
+}
+
+.example-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.badge-linear {
+    background: linear-gradient(135deg, var(--info), var(--primary));
+}
+
+.badge-exact {
+    background: linear-gradient(135deg, var(--accent), var(--warning));
+}
+
+.example-card .card-title {
+    color: var(--primary);
+    font-weight: 700;
+    font-family: 'Courier New', monospace;
+    margin-top: 2rem;
+}
+
+/* ============================================
+   MÉTODOS
+   ============================================ */
+.method-card {
+    height: 100%;
+    border: 2px solid var(--border-color);
+}
+
+.method-card .card-header {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.method-card .card-header h5 {
+    margin: 0;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.method-card ol {
+    padding-left: 1.5rem;
+}
+
+.method-card ol li {
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary);
+}
+
+.example-box {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 3px solid var(--primary);
+    margin-top: 1rem;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+}
+
+/* ============================================
+   HISTORIAL
+   ============================================ */
+.history-card {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.history-item {
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    border-left: 4px solid var(--primary);
+    transition: all 0.3s ease;
+}
+
+.history-item:hover {
+    transform: translateX(5px);
+    box-shadow: var(--shadow-md);
+}
+
+.history-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.history-item-type {
+    background: var(--primary);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.history-item-time {
+    color: var(--text-light);
+    font-size: 0.85rem;
+}
+
+.history-item-equation {
+    font-family: 'Courier New', monospace;
+    font-size: 1rem;
+    color: var(--text-primary);
+    margin: 0.5rem 0;
+}
+
+.history-item-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+/* ============================================
+   QUICK EXAMPLES
+   ============================================ */
+.quick-examples {
+    border-top: 2px solid var(--border-color);
+    padding-top: 1rem;
+}
+
+.quick-examples .btn {
+    text-align: left;
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    padding: 0.5rem 1rem;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.footer {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: white;
+    padding: 2rem 0;
+    margin-top: 4rem;
+}
+
+.footer a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    margin: 0 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.footer a:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 3rem 0 5rem;
+    }
+
+    .hero-section h1 {
+        font-size: 2rem;
+    }
+
+    .calculator-section {
+        padding: 2rem 0;
+        margin-top: -2rem;
+    }
+
+    .card-body {
+        padding: 1.5rem;
+    }
+
+    .hero-badges {
+        font-size: 0.85rem;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+    }
+
+    .btn-theme-toggle {
+        margin-left: 0.5rem;
+        padding: 0.5rem;
+    }
+}
+
+/* ============================================
+   UTILIDADES
+   ============================================ */
+.text-gradient {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.loading-spinner {
+    border: 3px solid rgba(99, 102, 241, 0.3);
+    border-top: 3px solid var(--primary);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 2rem auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ============================================
+   SCROLL SUAVE
+   ============================================ */
+html {
+    scroll-behavior: smooth;
+}
+
+/* ============================================
+   SELECCIÓN DE TEXTO
+   ============================================ */
+::selection {
+    background: var(--primary);
+    color: white;
+}
+
+::-moz-selection {
+    background: var(--primary);
+    color: white;
+}
+   </style>
 </head>
 <body>
     <!-- Navegación -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand" href="#">Ecuaciones Diferenciales</a>
+            <a class="navbar-brand" href="#">
+                <span class="brand-icon">∫</span>
+                Calculadora ED
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#inicio">Inicio</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#modulos">Módulos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#progreso">Progreso</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#recursos">Recursos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#calculadora">Calculadora</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#ejemplos">Ejemplos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#metodos">Métodos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#historial">Historial</a></li>
                 </ul>
-                <div class="user-info">
-                    <span id="userName">Estudiante</span>
-                    <button class="btn btn-sm btn-outline-light ms-2" onclick="toggleDarkMode()">🌙</button>
-                </div>
+                <button class="btn btn-theme-toggle" onclick="toggleTheme()">🌙</button>
             </div>
         </div>
     </nav>
 
     <!-- Header -->
-    <header class="text-white text-center" id="inicio">
+    <header class="hero-section text-white text-center">
         <div class="container">
-            <h1 class="display-4">Curso de Ecuaciones Diferenciales</h1>
-            <p class="lead">Aprende a resolver ecuaciones diferenciales desde lo básico hasta lo avanzado</p>
-            <div>
-                <button class="btn btn-light btn-lg" id="startButton">Comenzar Ahora</button>
-                <button class="btn btn-outline-light btn-lg" onclick="scrollToSection('progreso')">Ver Mi Progreso</button>
+            <h1 class="display-4 mb-3">Calculadora de Ecuaciones Diferenciales</h1>
+            <p class="lead">Resuelve ecuaciones diferenciales de primer orden paso a paso</p>
+            <div class="hero-badges">
+                <span class="badge">Variables Separables</span>
+                <span class="badge">Lineales</span>
+                <span class="badge">Exactas</span>
+                <span class="badge">Bernoulli</span>
             </div>
-            <div class="mt-4">
-                <p class="mb-2">Progreso General del Curso</p>
-                <div class="progress mx-auto" style="max-width: 600px; height: 25px;">
-                    <div class="progress-bar progress-bar-striped progress-bar-animated" id="totalProgressBar" role="progressbar" style="width: 0%">
-                        <span id="totalProgressText">0%</span>
-                    </div>
-                </div>
-            </div>
+        </div>
+        <div class="hero-wave">
+            <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"></path>
+            </svg>
         </div>
     </header>
 
-    <!-- Módulos del Curso -->
-    <section class="py-5" id="modulos">
+    <!-- Calculadora Principal -->
+    <section class="calculator-section" id="calculadora">
         <div class="container">
-            <h2 class="text-center mb-5">Módulos del Curso</h2>
-            <div class="row" id="modulesContainer">
-                <!-- Los módulos se cargarán dinámicamente con JavaScript -->
-            </div>
-        </div>
-    </section>
-
-    <!-- Sección de Progreso -->
-    <section class="bg-light py-5" id="progreso">
-        <div class="container">
-            <h2 class="text-center mb-5">Tu Progreso</h2>
             <div class="row">
-                <div class="col-md-8 offset-md-2">
-                    <div class="card shadow-lg">
-                        <div class="card-body p-4">
-                            <div class="row mb-4">
-                                <div class="col-md-4 text-center">
-                                    <div class="stat-box">
-                                        <h3 id="completedModules">0</h3>
-                                        <p>Módulos Completados</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 text-center">
-                                    <div class="stat-box">
-                                        <h3 id="totalHours">0</h3>
-                                        <p>Horas de Estudio</p>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 text-center">
-                                    <div class="stat-box">
-                                        <h3 id="exercisesSolved">0</h3>
-                                        <p>Ejercicios Resueltos</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="progressBarsContainer">
-                                <!-- Las barras de progreso se cargarán dinámicamente -->
-                            </div>
+                <!-- Panel de Entrada -->
+                <div class="col-lg-6 mb-4">
+                    <div class="card calculator-card">
+                        <div class="card-header">
+                            <h4>📝 Ingresa tu Ecuación Diferencial</h4>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Recursos Adicionales -->
-    <section class="py-5" id="recursos">
-        <div class="container">
-            <h2 class="text-center mb-5">Recursos Adicionales</h2>
-            <div class="row">
-                <div class="col-md-3 mb-4">
-                    <div class="card resource-card">
-                        <div class="card-body text-center">
-                            <div class="resource-icon">📚</div>
-                            <h5 class="card-title">Ejercicios Prácticos</h5>
-                            <p class="card-text">Colección de problemas resueltos</p>
-                            <button class="btn btn-outline-primary" onclick="openResource('ejercicios')">Acceder</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-4">
-                    <div class="card resource-card">
-                        <div class="card-body text-center">
-                            <div class="resource-icon">🎥</div>
-                            <h5 class="card-title">Videos Tutoriales</h5>
-                            <p class="card-text">Explicaciones en video</p>
-                            <button class="btn btn-outline-primary" onclick="openResource('videos')">Ver Videos</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-4">
-                    <div class="card resource-card">
-                        <div class="card-body text-center">
-                            <div class="resource-icon">🧮</div>
-                            <h5 class="card-title">Simuladores</h5>
-                            <p class="card-text">Herramientas interactivas</p>
-                            <button class="btn btn-outline-primary" onclick="openResource('simuladores')">Simular</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-4">
-                    <div class="card resource-card">
-                        <div class="card-body text-center">
-                            <div class="resource-icon">📖</div>
-                            <h5 class="card-title">Bibliografía</h5>
-                            <p class="card-text">Libros recomendados</p>
-                            <button class="btn btn-outline-primary" onclick="openResource('bibliografia')">Ver Lista</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Quiz Section -->
-    <section class="bg-light py-5" id="quiz">
-        <div class="container">
-            <h2 class="text-center mb-5">Evaluación Rápida</h2>
-            <div class="row">
-                <div class="col-md-8 offset-md-2">
-                    <div class="card shadow-lg">
-                        <div class="card-body p-4">
-                            <div id="quizContainer">
-                                <h5 class="mb-4">Pregunta: ¿Cuál es el orden de la ecuación y'' + 3y' + 2y = 0?</h5>
-                                <div class="quiz-options">
-                                    <button class="btn btn-outline-secondary btn-block mb-2 quiz-option" onclick="checkAnswer(1, false)">Primer orden</button>
-                                    <button class="btn btn-outline-secondary btn-block mb-2 quiz-option" onclick="checkAnswer(2, true)">Segundo orden</button>
-                                    <button class="btn btn-outline-secondary btn-block mb-2 quiz-option" onclick="checkAnswer(3, false)">Tercer orden</button>
-                                    <button class="btn btn-outline-secondary btn-block mb-2 quiz-option" onclick="checkAnswer(4, false)">Cuarto orden</button>
-                                </div>
-                                <div id="quizResult" class="mt-3"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contacto -->
-    <section class="py-5" id="contacto">
-        <div class="container">
-            <h2 class="text-center mb-5">Contacto</h2>
-            <div class="row">
-                <div class="col-md-6 offset-md-3">
-                    <div class="card shadow-lg">
-                        <div class="card-body p-4">
-                            <form id="contactForm">
-                                <div class="mb-3">
-                                    <label for="nombre" class="form-label">Nombre</label>
-                                    <input type="text" class="form-control" id="nombre" placeholder="Tu nombre" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="email" placeholder="tu@email.com" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="asunto" class="form-label">Asunto</label>
-                                    <select class="form-select" id="asunto" required>
-                                        <option value="">Selecciona un asunto</option>
-                                        <option value="duda">Consulta sobre el curso</option>
-                                        <option value="tecnico">Problema técnico</option>
-                                        <option value="sugerencia">Sugerencia</option>
-                                        <option value="otro">Otro</option>
+                        <div class="card-body">
+                            <form id="calculatorForm">
+                                <!-- Selector de Método -->
+                                <div class="mb-4">
+                                    <label class="form-label">Tipo de Ecuación</label>
+                                    <select class="form-select" id="equationType" onchange="updateEquationFormat()">
+                                        <option value="separable">Variables Separables</option>
+                                        <option value="linear">Lineal de Primer Orden</option>
+                                        <option value="exact">Ecuación Exacta</option>
+                                        <option value="bernoulli">Ecuación de Bernoulli</option>
+                                        <option value="homogeneous">Homogénea</option>
                                     </select>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="mensaje" class="form-label">Mensaje</label>
-                                    <textarea class="form-control" id="mensaje" rows="4" placeholder="Tu consulta..." required></textarea>
+
+                                <!-- Formato de Entrada -->
+                                <div class="format-info mb-3" id="formatInfo">
+                                    <strong>Formato:</strong> dy/dx = f(x)g(y)
                                 </div>
-                                <button type="submit" class="btn btn-primary w-100">Enviar Mensaje</button>
+
+                                <!-- Campos de Entrada -->
+                                <div id="inputFields">
+                                    <!-- Variables Separables -->
+                                    <div id="separableInputs" class="equation-inputs">
+                                        <div class="mb-3">
+                                            <label class="form-label">f(x) - Función de x</label>
+                                            <input type="text" class="form-control" id="fx" placeholder="Ej: 2*x, sin(x), x^2" value="2*x">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">g(y) - Función de y</label>
+                                            <input type="text" class="form-control" id="gy" placeholder="Ej: y, y^2, 1/y" value="y">
+                                        </div>
+                                    </div>
+
+                                    <!-- Lineales -->
+                                    <div id="linearInputs" class="equation-inputs d-none">
+                                        <div class="mb-3">
+                                            <label class="form-label">P(x) - Coeficiente de y</label>
+                                            <input type="text" class="form-control" id="px" placeholder="Ej: 2, x, 1/x" value="2">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Q(x) - Término independiente</label>
+                                            <input type="text" class="form-control" id="qx" placeholder="Ej: x^2, sin(x), e^x" value="x^2">
+                                        </div>
+                                    </div>
+
+                                    <!-- Exactas -->
+                                    <div id="exactInputs" class="equation-inputs d-none">
+                                        <div class="mb-3">
+                                            <label class="form-label">M(x,y) - Coeficiente de dx</label>
+                                            <input type="text" class="form-control" id="mxy" placeholder="Ej: 2*x*y, y^2" value="2*x*y">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">N(x,y) - Coeficiente de dy</label>
+                                            <input type="text" class="form-control" id="nxy" placeholder="Ej: x^2, 2*x*y" value="x^2">
+                                        </div>
+                                    </div>
+
+                                    <!-- Bernoulli -->
+                                    <div id="bernoulliInputs" class="equation-inputs d-none">
+                                        <div class="mb-3">
+                                            <label class="form-label">P(x) - Coeficiente de y</label>
+                                            <input type="text" class="form-control" id="pxBernoulli" placeholder="Ej: 1, x" value="1">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Q(x) - Coeficiente</label>
+                                            <input type="text" class="form-control" id="qxBernoulli" placeholder="Ej: x, x^2" value="x">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">n - Exponente de y</label>
+                                            <input type="number" class="form-control" id="nBernoulli" placeholder="Ej: 2, 3" value="2">
+                                        </div>
+                                    </div>
+
+                                    <!-- Homogéneas -->
+                                    <div id="homogeneousInputs" class="equation-inputs d-none">
+                                        <div class="mb-3">
+                                            <label class="form-label">Función F(x,y)</label>
+                                            <input type="text" class="form-control" id="fxy" placeholder="Ej: (x^2+y^2)/(x*y)" value="(x+y)/(x-y)">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Condición Inicial -->
+                                <div class="mb-4">
+                                    <label class="form-label">
+                                        Condición Inicial (Opcional)
+                                        <span class="text-muted small">- Para encontrar la constante C</span>
+                                    </label>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <input type="text" class="form-control" id="x0" placeholder="x₀" value="0">
+                                        </div>
+                                        <div class="col-6">
+                                            <input type="text" class="form-control" id="y0" placeholder="y₀" value="1">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Botones -->
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-primary btn-lg">
+                                        <span class="btn-icon">🧮</span>
+                                        Resolver Ecuación
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary" onclick="clearCalculator()">
+                                        Limpiar
+                                    </button>
+                                </div>
                             </form>
+
+                            <!-- Botones de Ejemplo Rápido -->
+                            <div class="quick-examples mt-4">
+                                <p class="text-muted small mb-2">Prueba con un ejemplo:</p>
+                                <div class="btn-group-vertical w-100" role="group">
+                                    <button class="btn btn-sm btn-outline-info" onclick="loadExample(1)">dy/dx = 2x*y</button>
+                                    <button class="btn btn-sm btn-outline-info" onclick="loadExample(2)">dy/dx + 2y = x²</button>
+                                    <button class="btn btn-sm btn-outline-info" onclick="loadExample(3)">2xy dx + x² dy = 0</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Panel de Solución -->
+                <div class="col-lg-6 mb-4">
+                    <div class="card solution-card">
+                        <div class="card-header">
+                            <h4>📊 Solución Paso a Paso</h4>
+                        </div>
+                        <div class="card-body">
+                            <div id="solutionContainer">
+                                <div class="empty-state">
+                                    <div class="empty-icon">📐</div>
+                                    <p>Ingresa una ecuación diferencial para ver la solución</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gráfica -->
+                    <div class="card mt-4 graph-card">
+                        <div class="card-header">
+                            <h4>📈 Visualización</h4>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="solutionGraph" width="400" height="300"></canvas>
+                            <div id="graphInfo" class="text-center text-muted mt-3">
+                                <small>La gráfica se mostrará después de resolver la ecuación</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ejemplos Resueltos -->
+    <section class="examples-section" id="ejemplos">
+        <div class="container">
+            <h2 class="section-title text-center mb-5">📚 Ejemplos Resueltos</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card example-card">
+                        <div class="card-body">
+                            <div class="example-badge">Variables Separables</div>
+                            <h5 class="card-title">dy/dx = x/y</h5>
+                            <p class="card-text">Separando variables y integrando ambos lados</p>
+                            <button class="btn btn-outline-primary btn-sm" onclick="loadExample(4)">Ver Solución</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card example-card">
+                        <div class="card-body">
+                            <div class="example-badge badge-linear">Lineal</div>
+                            <h5 class="card-title">dy/dx + y = e^x</h5>
+                            <p class="card-text">Usando factor integrante</p>
+                            <button class="btn btn-outline-primary btn-sm" onclick="loadExample(5)">Ver Solución</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card example-card">
+                        <div class="card-body">
+                            <div class="example-badge badge-exact">Exacta</div>
+                            <h5 class="card-title">(2x + y)dx + (x + 2y)dy = 0</h5>
+                            <p class="card-text">Verificando condición de exactitud</p>
+                            <button class="btn btn-outline-primary btn-sm" onclick="loadExample(6)">Ver Solución</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Métodos -->
+    <section class="methods-section" id="metodos">
+        <div class="container">
+            <h2 class="section-title text-center mb-5">🔧 Métodos de Solución</h2>
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="card method-card">
+                        <div class="card-header">
+                            <h5>Variables Separables</h5>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Forma:</strong> dy/dx = f(x)g(y)</p>
+                            <p><strong>Método:</strong></p>
+                            <ol>
+                                <li>Separar variables: dy/g(y) = f(x)dx</li>
+                                <li>Integrar ambos lados</li>
+                                <li>Despejar y si es posible</li>
+                            </ol>
+                            <div class="example-box">
+                                <strong>Ejemplo:</strong> dy/dx = xy<br>
+                                → dy/y = x dx<br>
+                                → ln|y| = x²/2 + C
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <div class="card method-card">
+                        <div class="card-header">
+                            <h5>Ecuaciones Lineales</h5>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Forma:</strong> dy/dx + P(x)y = Q(x)</p>
+                            <p><strong>Método:</strong></p>
+                            <ol>
+                                <li>Calcular factor integrante: μ = e^(∫P(x)dx)</li>
+                                <li>Multiplicar toda la ecuación por μ</li>
+                                <li>Integrar: y·μ = ∫Q(x)·μ dx</li>
+                            </ol>
+                            <div class="example-box">
+                                <strong>Ejemplo:</strong> dy/dx + 2y = x<br>
+                                → μ = e^(2x)<br>
+                                → y = (x-1)/2 + Ce^(-2x)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <div class="card method-card">
+                        <div class="card-header">
+                            <h5>Ecuaciones Exactas</h5>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Forma:</strong> M(x,y)dx + N(x,y)dy = 0</p>
+                            <p><strong>Condición:</strong> ∂M/∂y = ∂N/∂x</p>
+                            <p><strong>Método:</strong></p>
+                            <ol>
+                                <li>Verificar condición de exactitud</li>
+                                <li>F(x,y) = ∫M dx (manteniendo y constante)</li>
+                                <li>Completar con términos de N</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <div class="card method-card">
+                        <div class="card-header">
+                            <h5>Ecuación de Bernoulli</h5>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Forma:</strong> dy/dx + P(x)y = Q(x)y^n</p>
+                            <p><strong>Método:</strong></p>
+                            <ol>
+                                <li>Dividir por y^n</li>
+                                <li>Sustituir v = y^(1-n)</li>
+                                <li>Resolver como ecuación lineal</li>
+                            </ol>
+                            <div class="example-box">
+                                <strong>Ejemplo:</strong> dy/dx + y = xy²<br>
+                                → Sustitución v = y^(-1)<br>
+                                → Ecuación lineal en v
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Historial -->
+    <section class="history-section" id="historial">
+        <div class="container">
+            <h2 class="section-title text-center mb-5">📜 Historial de Cálculos</h2>
+            <div class="card history-card">
+                <div class="card-body">
+                    <div id="historyContainer">
+                        <div class="empty-state">
+                            <div class="empty-icon">📋</div>
+                            <p>No hay cálculos recientes</p>
                         </div>
                     </div>
                 </div>
@@ -214,19 +1105,544 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-dark text-white text-center py-4">
-        <div class="container">
-            <p class="mb-2">© 2024 Curso de Ecuaciones Diferenciales. Todos los derechos reservados.</p>
+    <footer class="footer">
+        <div class="container text-center">
+            <p class="mb-2">© 2024 Calculadora de Ecuaciones Diferenciales</p>
             <p class="mb-0">
-                <a href="#" class="text-white me-3">Términos de Uso</a>
-                <a href="#" class="text-white me-3">Política de Privacidad</a>
-                <a href="#" class="text-white">Soporte</a>
+                <a href="#calculadora">Inicio</a> |
+                <a href="#ejemplos">Ejemplos</a> |
+                <a href="#metodos">Métodos</a> |
+                <a href="#historial">Historial</a>
             </p>
         </div>
     </footer>
+    <script>
+        /* calculadora.js
+   JavaScript para la "Calculadora de Ecuaciones Diferenciales".
+   - Soporta: separable, lineal, exacta (chequeo), Bernoulli, homogénea (transformación básica)
+   - Muestra pasos heurísticos (integrales básicas) y usa RK4 para graficar soluciones numéricas.
+   - Guarda historial en localStorage.
+   - Detecta tema oscuro automático y permite alternar.
+
+   Nota: Este archivo hace un enfoque práctico y heurístico para resolver simbólicamente
+   integrales sencillas (polinomios, potencias, e^x, sen, cos, 1/x). Para casos muy generales
+   se indica que la integral no pudo obtenerse simbólicamente y se recurre a integración numérica
+   o a la solución implícita.
+*/
+
+// ---------------------------- Utilidades ----------------------------
+function qs(sel) { return document.querySelector(sel); }
+function qsa(sel) { return Array.from(document.querySelectorAll(sel)); }
+
+function safeExpr(expr) {
+    if (!expr) return '';
+    // reemplazos comunes: ^ -> **, implicit multiplication handled by user
+    return expr.replace(/\^/g, '**').replace(/\bexp\(/g, 'Math.exp(');
+}
+
+function buildFunction(expr, args = ['x','y']) {
+    // crea una función (x,y) => ... usando Math.
+    expr = safeExpr(expr);
+    // permitir funciones comunes sin Math. prefix
+    const mathFns = ['sin','cos','tan','asin','acos','atan','sqrt','log','abs','exp','pow','floor','ceil'];
+    for (const fn of mathFns) {
+        const re = new RegExp('\\b' + fn + '\\b', 'g');
+        expr = expr.replace(re, 'Math.' + fn);
+    }
+    // constantes
+    expr = expr.replace(/\bpi\b/gi, 'Math.PI').replace(/\be\b/gi, 'Math.E');
+    const argList = args.join(',');
+    try {
+        // eslint-disable-next-line no-new-func
+        return new Function(argList, 'return ' + expr + ';');
+    } catch (e) {
+        return null;
+    }
+}
+
+// heurístico para integrar expresiones simples
+function integrateSimple(expr, variable='x') {
+    // expr assumed in terms of variable. return {integral: string, ok: bool}
+    if (!expr) return {integral: 'C', ok: true};
+    expr = expr.trim();
+    expr = expr.replace(/\s+/g, '');
+    expr = expr.replace(/\^/g, '**');
+
+    // 1/x -> ln|x|
+    if (new RegExp('^1\\/' + variable + '$').test(expr) || new RegExp('^' + variable + '\*0?\^?0$').test(expr)) {
+        return {integral: `ln|${variable}|`, ok: true};
+    }
+
+    // e^(ax + b) or exp(ax+b)
+    let m = expr.match(/^Math\.exp\(([-+]?\d*\.?\d*)\*?${variable}([+-]?\d*\.?\d*)\)$/);
+    if (!m) m = expr.match(/^exp\(([-+]?\d*\.?\d*)\*?${variable}([+-]?\d*\.?\d*)\)$/);
+    if (m) {
+        const a = parseFloat(m[1]||1);
+        const b = parseFloat(m[2]||0);
+        const denom = a !== 0 ? a : 1;
+        return {integral: `(1/${denom})*exp(${a}*${variable}${b?((b>0?'+':'')+b):''})`, ok: true};
+    }
+
+    // sin(ax) cos(ax)
+    m = expr.match(/^Math\.sin\(([-+]?\d*\.?\d*)\*?${variable}\)$/);
+    if (m) {
+        const a = parseFloat(m[1]||1);
+        const denom = a !== 0 ? a : 1;
+        return {integral: `-1/${denom}*cos(${a}*${variable})`, ok: true};
+    }
+    m = expr.match(/^Math\.cos\(([-+]?\d*\.?\d*)\*?${variable}\)$/);
+    if (m) {
+        const a = parseFloat(m[1]||1);
+        const denom = a !== 0 ? a : 1;
+        return {integral: `1/${denom}*sin(${a}*${variable})`, ok: true};
+    }
+
+    // polynomial: a*x^n
+    m = expr.match(/^([-+]?\d*\.?\d*)\*?${variable}(?:\*\*|\\^)([-+]?\d+)$|^([-+]?\d*\.?\d*)\*?${variable}\\*\*?$/);
+    if (m) {
+        // try general polynomial parsing
+        try {
+            // fallback: evaluate coefficients by sampling: not robust but helps
+            // attempt to detect pattern like a*x**n
+            const m2 = expr.match(/^([-+]?\d*\.?\d*)\*?${variable}(?:\*\*)([-+]?\d+)$/);
+            if (m2) {
+                let a = parseFloat(m2[1] || 1);
+                const n = parseFloat(m2[2]);
+                const newN = n + 1;
+                const coef = a / newN;
+                return {integral: `${coef}*${variable}**${newN}`, ok: true};
+            }
+            // a*x
+            const m3 = expr.match(/^([-+]?\d*\.?\d*)\*?${variable}$/);
+            if (m3) {
+                let a = parseFloat(m3[1] || 1);
+                return {integral: `${a}*${variable}**2/2`, ok: true};
+            }
+        } catch (e) {}
+    }
+
+    // pure constant
+    m = expr.match(/^[-+]?\d*\.?\d+$/);
+    if (m) {
+        return {integral: `${expr}*${variable}`, ok: true};
+    }
+
+    // fallback: cannot integrate symbolically
+    return {integral: null, ok: false};
+}
+
+// mostrar pasos en container
+function addStep(title, html) {
+    const container = qs('#solutionContainer');
+    const div = document.createElement('div');
+    div.className = 'solution-step';
+    div.innerHTML = `<h5>${title}</h5>${html}`;
+    container.prepend(div);
+}
+
+function clearSolution() {
+    const container = qs('#solutionContainer');
+    container.innerHTML = `
+        <div class="empty-state">
+            <div class="empty-icon">📐</div>
+            <p>Ingresa una ecuación diferencial para ver la solución</p>
+        </div>
+    `;
+}
+
+// ---------------------------- Tema ----------------------------
+function toggleTheme(force) {
+    const body = document.body;
+    if (force === 'dark' || (force === undefined && body.classList.contains('dark-theme') === false && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        body.classList.add('dark-theme');
+        qs('.btn-theme-toggle').textContent = '☀️';
+    } else if (force === 'light') {
+        body.classList.remove('dark-theme');
+        qs('.btn-theme-toggle').textContent = '🌙';
+    } else {
+        body.classList.toggle('dark-theme');
+        qs('.btn-theme-toggle').textContent = body.classList.contains('dark-theme') ? '☀️' : '🌙';
+    }
+}
+
+// auto-detect theme on load
+(function(){
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) toggleTheme('dark');
+})();
+
+// ---------------------------- UI: mostrar campos según tipo ----------------------------
+function hideAllInputs() {
+    qsa('#inputFields .equation-inputs').forEach(el => el.classList.add('d-none'));
+}
+function updateEquationFormat() {
+    const t = qs('#equationType').value;
+    hideAllInputs();
+    const formatInfo = qs('#formatInfo');
+    switch (t) {
+        case 'separable':
+            qs('#separableInputs').classList.remove('d-none');
+            formatInfo.innerHTML = '<strong>Formato:</strong> dy/dx = f(x) · g(y)';
+            break;
+        case 'linear':
+            qs('#linearInputs').classList.remove('d-none');
+            formatInfo.innerHTML = '<strong>Formato:</strong> dy/dx + P(x) y = Q(x)';
+            break;
+        case 'exact':
+            qs('#exactInputs').classList.remove('d-none');
+            formatInfo.innerHTML = '<strong>Formato:</strong> M(x,y) dx + N(x,y) dy = 0';
+            break;
+        case 'bernoulli':
+            qs('#bernoulliInputs').classList.remove('d-none');
+            formatInfo.innerHTML = '<strong>Formato:</strong> dy/dx + P(x) y = Q(x) y^n';
+            break;
+        case 'homogeneous':
+            qs('#homogeneousInputs').classList.remove('d-none');
+            formatInfo.innerHTML = '<strong>Formato:</strong> dy/dx = F(y/x) (homogénea)';
+            break;
+    }
+}
+
+// ---------------------------- Historial ----------------------------
+function saveHistory(entry) {
+    const key = 'ed_history_v1';
+    const arr = JSON.parse(localStorage.getItem(key) || '[]');
+    arr.unshift({time: new Date().toISOString(), entry});
+    if (arr.length > 30) arr.pop();
+    localStorage.setItem(key, JSON.stringify(arr));
+    renderHistory();
+}
+
+function renderHistory() {
+    const key = 'ed_history_v1';
+    const arr = JSON.parse(localStorage.getItem(key) || '[]');
+    const container = qs('#historyContainer');
+    if (!arr.length) {
+        container.innerHTML = `
+            <div class="empty-state"><div class="empty-icon">📋</div><p>No hay cálculos recientes</p></div>
+        `;
+        return;
+    }
+    container.innerHTML = '';
+    arr.forEach((h, idx) => {
+        const div = document.createElement('div');
+        div.className = 'history-item';
+        div.innerHTML = `
+            <div class="history-item-header">
+                <div>
+                    <div class="history-item-type">Cálculo</div>
+                    <div class="history-item-time">${new Date(h.time).toLocaleString()}</div>
+                </div>
+                <div><button class="btn btn-sm btn-outline-primary" data-load='${idx}'>Cargar</button></div>
+            </div>
+            <div class="history-item-equation"><pre style="margin:0;">${escapeHtml(h.entry.summary)}</pre></div>
+        `;
+        container.appendChild(div);
+        div.querySelector('button[data-load]').addEventListener('click', ()=>{
+            loadFromHistory(idx);
+        });
+    });
+}
+
+function escapeHtml(s){ return String(s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[c]; }); }
+
+function loadFromHistory(idx) {
+    const key = 'ed_history_v1';
+    const arr = JSON.parse(localStorage.getItem(key) || '[]');
+    const h = arr[idx];
+    if (!h) return;
+    // Intento parse minimal: si el summary incluye dy/dx = ...
+    const sum = h.entry.summary;
+    // Simple heuristic: if includes 'dy/dx =' set separable and put in fx,gy raw
+    if (sum.includes('dy/dx')) {
+        // place into separable input default
+        qs('#equationType').value = 'separable';
+        updateEquationFormat();
+        // try to parse rhs
+        const rhs = sum.split('dy/dx')[1].replace('=','').trim();
+        // don't attempt deep parse, just put rhs into fx and gy fields by asking user later
+        qs('#fx').value = rhs;
+    }
+    alert('Historial cargado parcialmente. Revise los campos y resuelva.');
+}
+
+// ---------------------------- Ejemplos ----------------------------
+function loadExample(n) {
+    switch(n) {
+        case 1:
+            qs('#equationType').value = 'separable'; updateEquationFormat();
+            qs('#fx').value = '2*x'; qs('#gy').value = 'y';
+            qs('#x0').value='0'; qs('#y0').value='1';
+            break;
+        case 2:
+            qs('#equationType').value = 'linear'; updateEquationFormat();
+            qs('#px').value = '2'; qs('#qx').value = 'x**2';
+            qs('#x0').value='0'; qs('#y0').value='0';
+            break;
+        case 3:
+            qs('#equationType').value = 'exact'; updateEquationFormat();
+            qs('#mxy').value = '2*x*y'; qs('#nxy').value = 'x**2';
+            break;
+        case 4:
+            qs('#equationType').value = 'separable'; updateEquationFormat();
+            qs('#fx').value = 'x'; qs('#gy').value = '1/y';
+            break;
+        case 5:
+            qs('#equationType').value = 'linear'; updateEquationFormat();
+            qs('#px').value = '1'; qs('#qx').value = 'Math.exp(x)';
+            break;
+        case 6:
+            qs('#equationType').value = 'exact'; updateEquationFormat();
+            qs('#mxy').value = '(2*x + y)'; qs('#nxy').value = '(x + 2*y)';
+            break;
+    }
+    // auto submit for convenience on examples that should resolve quickly
+    // pero no auto-run to let user confirm
+}
+
+// ---------------------------- Resolución por tipo ----------------------------
+function solveSeparable() {
+    const fxStr = qs('#fx').value || '1';
+    const gyStr = qs('#gy').value || '1';
+    const fx = buildFunction(fxStr, ['x']);
+    const gy = buildFunction(gyStr, ['y']);
+
+    addStep('Separación de variables', `<div>dy/dx = ${escapeHtml(fxStr)} · ${escapeHtml(gyStr)}<div class="solution-equation">\frac{dy}{${escapeHtml(gyStr)}} = ${escapeHtml(fxStr)} dx</div></div>`);
+
+    // intentar integrar 1/g(y) wrt y y f(x) wrt x
+    const invGyExpr = `1/(${gyStr})`;
+    const I_y = integrateSimple(invGyExpr, 'y');
+    const I_x = integrateSimple(fxStr, 'x');
+
+    if (I_y.ok && I_x.ok) {
+        addStep('Integración', `<div class="solution-equation">\int ${escapeHtml(invGyExpr)} dy = ${escapeHtml(I_y.integral)} + C<br>\int ${escapeHtml(fxStr)} dx = ${escapeHtml(I_x.integral)} + C</div>`);
+        addStep('Solución implícita', `<div class="solution-equation">${escapeHtml(I_y.integral)} = ${escapeHtml(I_x.integral)} + C</div>`);
+        const summary = `${I_y.integral} = ${I_x.integral} + C`;
+        saveHistory({type:'separable', summary, inputs:{fx:fxStr,gy:gyStr}});
+        plotFromRhs((x,y)=>{ return fx(x)*gy(y); }, fxStr+'*'+gyStr);
+        return;
+    }
+
+    addStep('Heurística insuficiente', `<p>No fue posible integrar simbólicamente ambas partes con el integrador heurístico. Se mostrará la forma separada y se ofrecerá solución numérica.</p>`);
+    saveHistory({type:'separable', summary:`dy/dx = ${fxStr}*${gyStr}`, inputs:{fx:fxStr,gy:gyStr}});
+    plotFromRhs((x,y)=>{ return fx(x)*gy(y); }, fxStr+'*'+gyStr);
+}
+
+function solveLinear() {
+    const P = qs('#px').value || '0';
+    const Q = qs('#qx').value || '0';
+    addStep('Ecuación lineal', `<div class="solution-equation">dy/dx + (${escapeHtml(P)})y = ${escapeHtml(Q)}</div>`);
+    const intP = integrateSimple(P, 'x');
+    if (!intP.ok) {
+        addStep('Integración P(x)', `<p>No se pudo obtener ∫P(x) dx simbólicamente con la heurística. Se intentará numéricamente en gráficos.</p>`);
+    } else {
+        addStep('Factor integrante', `<div class="solution-equation">μ(x) = e^{\int P(x) dx} = e^{${escapeHtml(intP.integral)}}</div>`);
+    }
+    // construir funciones
+    const Pfun = buildFunction(P,['x']);
+    const Qfun = buildFunction(Q,['x']);
+    // para computar solución particular: y*μ = ∫ Q μ dx
+    // se construye μ numérica usando intP if ok
+    const muFun = (x)=> Math.exp(integrateNumeric(Pfun, 0, x, 200));
+    // mostrar forma general
+    if (intP.ok) {
+        addStep('Solución general (forma)', `<div class="solution-equation">y \cdot e^{${escapeHtml(intP.integral)}} = \int ${escapeHtml(Q)} e^{${escapeHtml(intP.integral)}} dx + C</div>`);
+    } else {
+        addStep('Solución general (numérica)', `<div class="solution-equation">y = e^{-∫P dx}\left(\int Q e^{∫P dx} dx + C\right)</div>`);
+    }
+    saveHistory({type:'linear', summary:`dy/dx + ${P} y = ${Q}`, inputs:{P,Q}});
+    // graficar con RK4 using original dy/dx = -P(x)y + Q(x)
+    const rhs = (x,y)=> Qfun(x) - Pfun(x)*y;
+    plotFromRhs(rhs, `-(${P})*y + (${Q})`);
+}
+
+function solveExact() {
+    const M = qs('#mxy').value || '0';
+    const N = qs('#nxy').value || '0';
+    addStep('Ecuación exacta', `<div class="solution-equation">${escapeHtml(M)} dx + ${escapeHtml(N)} dy = 0</div>`);
+    const Mfun = buildFunction(M,['x','y']);
+    const Nfun = buildFunction(N,['x','y']);
+    // verificar exactitud: ∂M/∂y == ∂N/∂x approx
+    const dMdy = numericPartial(Mfun,'y');
+    const dNdx = numericPartial(Nfun,'x');
+    const check = compareFunctions(dMdy,dNdx);
+    addStep('Condición de exactitud', `<div>∂M/∂y ≈ ${dMdy.toFixed(4)} | ∂N/∂x ≈ ${dNdx.toFixed(4)}<br>${check?'<strong>Exacta</strong>':'<strong>No exacta</strong>'}</div>`);
+    if (!check) {
+        addStep('Sugerencia', `<p>La ecuación no es exacta según una evaluación numérica simple. Podría hacerse exacta con un factor integrante (no implementado de forma general aquí).</p>`);
+        saveHistory({type:'exact', summary:`${M} dx + ${N} dy = 0 (no exacta)`, inputs:{M,N}});
+        plotFromRhs((x,y)=>{ // intentar despejar dy/dx = -M/N
+            const n = Nfun(x,y); if (Math.abs(n) < 1e-9) return 0; return -Mfun(x,y)/n;
+        }, `-(${M})/(${N})`);
+        return;
+    }
+    // si es exacta: hallar F tal que dF/dx = M, dF/dy = N
+    // integración: F(x,y) = ∫ M(x,y) dx + h(y)
+    // h' = N - ∂/∂y(∫M dx)
+    // hacemos integración simbólica en x si M es simple
+    const M_as_x = M.replace(/\by\b/g, 'y'); // unchanged but placeholder
+    const intM_x = integrateSimple(M, 'x');
+    let Fpart = intM_x.ok ? intM_x.integral : null;
+    let hprime = null;
+    if (Fpart) {
+        // compute partial derivative wrt y of Fpart (heuristic: if Fpart contains y linearly) skip heavy algebra
+        // We'll attempt numeric approach to find h'(y) = N(x,y) - d/dy(∫M dx)
+        // for reporting, show implicit solution
+        addStep('Construcción de F(x,y)', `<div>F(x,y) = ${escapeHtml(Fpart)} + H(y)</div>`);
+        addStep('Condición para H(y)', `<div>H'(y) = N(x,y) - ∂/∂y(${escapeHtml(Fpart)})</div>`);
+        addStep('Solución implícita', `<div class="solution-equation">F(x,y) = C</div>`);
+    } else {
+        addStep('Resultado', `<p>No fue posible construir F(x,y) simbólicamente con heurísticas sencillas. Se muestra la forma implícita:</p><div class="solution-equation">\int M dx + \phi(y) = C</div>`);
+    }
+    saveHistory({type:'exact', summary:`${M} dx + ${N} dy = 0 (exacta)`, inputs:{M,N}});
+    plotFromRhs((x,y)=>{ const n=Nfun(x,y); if(Math.abs(n)<1e-9) return 0; return -Mfun(x,y)/n; }, `-(${M})/(${N})`);
+}
+
+function solveBernoulli() {
+    const P = qs('#pxBernoulli').value || '0';
+    const Q = qs('#qxBernoulli').value || '0';
+    const n = parseFloat(qs('#nBernoulli').value || '1');
+    addStep('Ecuación de Bernoulli', `<div class="solution-equation">dy/dx + ${escapeHtml(P)} y = ${escapeHtml(Q)} y^{${n}}</div>`);
+    if (n === 1) {
+        addStep('Caso n=1', '<p>Si n = 1 la ecuación se convierte en lineal. Resuélvala como lineal.</p>');
+        saveHistory({type:'bernoulli', summary:`n=1 => lineal`, inputs:{P,Q,n}});
+        return solveLinear();
+    }
+    // transformación v = y^(1-n)
+    addStep('Sustitución', `<p>Tomar v = y^{1-${n}}. Entonces dv/dx = (1-${n}) y^{-${n}} dy/dx</p>`);
+    addStep('Ecuación transformada', `<p>Se obtiene una ecuación lineal en v: dv/dx + (1-${n})P(x) v = (1-${n}) Q(x)</p>`);
+    saveHistory({type:'bernoulli', summary:`Bernoulli n=${n}`, inputs:{P,Q,n}});
+    // para graficar, usar forma original
+    const Pfun = buildFunction(P,['x']);
+    const Qfun = buildFunction(Q,['x']);
+    plotFromRhs((x,y)=> Qfun(x)*Math.pow(y,n) - Pfun(x)*y, `${Q}*y^${n} - ${P}*y`);
+}
+
+function solveHomogeneous() {
+    const F = qs('#fxy').value || '0';
+    addStep('Homogénea', `<div class="solution-equation">dy/dx = ${escapeHtml(F)}</div>`);
+    addStep('Sustitución típica', `<p>Si F es función de y/x se utiliza y = v x y dy/dx = v + x dv/dx para reducir a una ecuación separable/lineal en v.</p>`);
+    saveHistory({type:'homogeneous', summary:`dy/dx = ${F}`, inputs:{F}});
+    // intentamos construir RHS function of x,y
+    const rhs = buildFunction(F,['x','y']);
+    if (rhs) plotFromRhs((x,y)=> rhs(x,y), F);
+}
+
+// ---------------------------- Numeric helpers ----------------------------
+function integrateNumeric(f, a, b, steps=200) {
+    if (!f) return 0;
+    const h = (b - a) / steps;
+    let s = 0.5*(f(a)+f(b));
+    for (let i=1;i<steps;i++) s += f(a + i*h);
+    return s * h;
+}
+
+function numericPartial(fun, varName='x'){
+    // approximate partial derivative at (1,1)
+    try {
+        const h = 1e-5;
+        if (varName === 'x') return (fun(1+h,1) - fun(1-h,1)) / (2*h);
+        return (fun(1,1+h) - fun(1,1-h)) / (2*h);
+    } catch(e){ return NaN; }
+}
+
+function compareFunctions(a,b,tol=1e-3){
+    if (isNaN(a) || isNaN(b)) return false;
+    return Math.abs(a-b) < tol;
+}
+
+// ---------------------------- Gráfica y RK4 ----------------------------
+let chart = null;
+function plotFromRhs(rhsFunc, label) {
+    // rhsFunc(x,y) returns dy/dx
+    const x0 = parseFloat(qs('#x0').value) || 0;
+    const y0 = parseFloat(qs('#y0').value) || 1;
+    // generate solution with RK4 from x0- to x0+
+    const xMin = x0 - 5, xMax = x0 + 5;
+    const N = 200;
+    const xs = new Array(N+1).fill(0).map((_,i)=> xMin + i*(xMax-xMin)/N);
+    const ys = new Array(N+1);
+    ys[0]=y0;
+    for (let i=0;i<N;i++){
+        const x = xs[i], y = ys[i];
+        const h = xs[i+1]-xs[i];
+        const k1 = rhsFunc(x,y);
+        const k2 = rhsFunc(x + h/2, y + k1*h/2);
+        const k3 = rhsFunc(x + h/2, y + k2*h/2);
+        const k4 = rhsFunc(x + h, y + k3*h);
+        ys[i+1] = y + (h/6)*(k1 + 2*k2 + 2*k3 + k4);
+    }
+    renderChart(xs, ys, label || 'Solución');
+}
+
+function renderChart(xs, ys, label) {
+    const ctx = qs('#solutionGraph').getContext('2d');
+    if (chart) chart.destroy();
+    chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: xs,
+            datasets: [{
+                label: label,
+                data: ys,
+                fill: false,
+                tension: 0.2,
+                borderWidth: 2
+            }]
+        },
+        options: {
+            scales: {
+                x: { display: true, title: { display: true, text: 'x' } },
+                y: { display: true, title: { display: true, text: 'y' } }
+            },
+            plugins: { legend: { display: true } }
+        }
+    });
+    qs('#graphInfo').innerHTML = `<small>Gráfica numérica (RK4). Condición inicial: x₀=${qs('#x0').value || 0}, y₀=${qs('#y0').value || 1}</small>`;
+}
+
+// ---------------------------- Form & init ----------------------------
+function clearCalculator() {
+    // reset fields to defaults
+    qs('#calculatorForm').reset();
+    updateEquationFormat();
+    clearSolution();
+    if (chart) { chart.destroy(); chart = null; }
+}
+
+function handleSubmit(e) {
+    e.preventDefault();
+    clearSolution();
+    const type = qs('#equationType').value;
+    try {
+        switch(type) {
+            case 'separable': solveSeparable(); break;
+            case 'linear': solveLinear(); break;
+            case 'exact': solveExact(); break;
+            case 'bernoulli': solveBernoulli(); break;
+            case 'homogeneous': solveHomogeneous(); break;
+            default: addStep('Error','Tipo no soportado');
+        }
+    } catch (err) {
+        addStep('Error', `<pre>${escapeHtml(String(err))}</pre>`);
+    }
+}
+
+function init() {
+    updateEquationFormat();
+    renderHistory();
+    qs('#calculatorForm').addEventListener('submit', handleSubmit);
+    // wire toggle
+    qs('.btn-theme-toggle').addEventListener('click', ()=> toggleTheme());
+    // load quick examples buttons already wired inline
+}
+
+window.addEventListener('DOMContentLoaded', init);
+
+
+    </script>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="calculadora.js"></script>
 </body>
 </html>
